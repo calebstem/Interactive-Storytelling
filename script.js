@@ -240,11 +240,15 @@
 			return;
 		}
 
-		// Since images are preloaded, show immediately with cross-fade
+		// Use proper cross-fade transition even with preloaded images
 		const url = String(meta.bgImage);
 		next.style.backgroundImage = `url("${url}")`;
-		next.classList.add('show');
-		current.classList.remove('show');
+		
+		// Small delay to ensure smooth transition
+		requestAnimationFrame(() => {
+			next.classList.add('show');
+			current.classList.remove('show');
+		});
 	}
 
 	function applyHighlights(text, meta = {}) {
