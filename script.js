@@ -240,25 +240,15 @@
 			return;
 		}
 
-		// Verify image is loaded before transitioning (for smooth GitHub Pages experience)
+		// Simple approach: set background and transition with small delay
 		const url = String(meta.bgImage);
-		const img = new Image();
-		img.onload = () => {
-			next.style.backgroundImage = `url("${url}")`;
-			requestAnimationFrame(() => {
-				next.classList.add('show');
-				current.classList.remove('show');
-			});
-		};
-		img.onerror = () => {
-			// Fallback: show immediately if image fails to load
-			next.style.backgroundImage = `url("${url}")`;
-			requestAnimationFrame(() => {
-				next.classList.add('show');
-				current.classList.remove('show');
-			});
-		};
-		img.src = url;
+		next.style.backgroundImage = `url("${url}")`;
+		
+		// Small delay to ensure smooth transition on all connections
+		setTimeout(() => {
+			next.classList.add('show');
+			current.classList.remove('show');
+		}, 10);
 	}
 
 	function applyHighlights(text, meta = {}) {
