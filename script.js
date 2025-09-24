@@ -59,6 +59,24 @@
 		} catch (_) { /* ignore */ }
 	}
 
+	// Aggressive preloading of all background images
+	function preloadAllBackgroundImages() {
+		const backgroundImages = [
+			'images/Kitchen.png',
+			'images/bedroom.jpeg', 
+			'images/pinball.jpeg',
+			'images/Living_Room.jpeg',
+			'images/drive.jpeg',
+			'images/Bathroom.jpeg',
+			'images/party.png',
+			'images/outside.jpeg'
+		];
+		
+		backgroundImages.forEach(url => {
+			preloadImage(url);
+		});
+	}
+
 	function preloadNeighborAssets(pages, currentIndex, radius = 2) {
 		const len = pages.length;
 		for (let d = 1; d <= radius; d++) {
@@ -175,15 +193,11 @@
 			return;
 		}
 
-		// Preload then cross-fade
+		// Since images are preloaded, show immediately with cross-fade
 		const url = String(meta.bgImage);
-		const img = new Image();
-		img.onload = () => {
-			next.style.backgroundImage = `url("${url}")`;
-			next.classList.add('show');
-			current.classList.remove('show');
-		};
-		img.src = url;
+		next.style.backgroundImage = `url("${url}")`;
+		next.classList.add('show');
+		current.classList.remove('show');
 	}
 
 	function applyHighlights(text, meta = {}) {
@@ -262,6 +276,9 @@
 	}
 
 	loadPages().then((pages) => {
+		// Start preloading all background images immediately
+		preloadAllBackgroundImages();
+		
 		const currentPage = getPageFromQuery();
 		const totalPages = pages.length > 0 ? pages.length : 1;
 		const backLink = document.getElementById('backLink');
