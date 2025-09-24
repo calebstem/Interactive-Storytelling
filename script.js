@@ -11,16 +11,16 @@
 		
 		// Hide immediately if already dismissed
 		if (dismissed) {
-			cw.style.display = 'none';
+			cw.classList.remove('show');
 			cw.setAttribute('hidden', '');
 			return;
 		}
 		
 		// Show warning and set up click handler
-		cw.style.display = 'flex';
+		cw.classList.add('show');
 		btn.addEventListener('click', () => {
 			localStorage.setItem(key, '1');
-			cw.style.display = 'none';
+			cw.classList.remove('show');
 			cw.setAttribute('hidden', '');
 		});
 	})();
