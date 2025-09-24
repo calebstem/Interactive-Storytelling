@@ -1,7 +1,7 @@
 [page=1]
 
 [place=kitchen]
-[bg-image=url(images/kitchen.png)]
+[bg-image=url(images/Kitchen.png)]
 
 She arrives at 7:40, ten minutes late, but the children, Jimmy and Bitsy, are still eating supper,
 and their parents are not ready to go yet. From other rooms come the sounds of a baby
@@ -35,7 +35,7 @@ thinks.
 [page=4]
 
 [place=kitchen]
-[bg-image=url(images/kitchen.png)]
+[bg-image=url(images/Kitchen.png)]
 
 
 &#8220;Hi,&#8221; the babysitter says to the children, and puts her books on top of the refrigerator. &#8220;What&rsquo;s
@@ -64,7 +64,7 @@ move? He notices his buddy Mark in the drugstore, playing the pinball machine, a
 [page=7]
 
 [place=kitchen]
-[bg-image=url(images/kitchen.png)]
+[bg-image=url(images/Kitchen.png)]
 
 
 Mrs. Tucker appears at the kitchen doorway, holding a rolled-up diaper. &#8220;Now, don&rsquo;t just eat
