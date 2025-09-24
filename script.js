@@ -5,16 +5,24 @@
 		const cw = document.getElementById('cw');
 		const btn = document.getElementById('cwContinue');
 		if (!cw || !btn) return;
+		
 		const key = 'cw-dismissed-v1';
 		const dismissed = localStorage.getItem(key) === '1';
+		
+		// Hide immediately if already dismissed
 		if (dismissed) {
+			cw.style.display = 'none';
 			cw.setAttribute('hidden', '');
-		} else {
-			btn.addEventListener('click', () => {
-				localStorage.setItem(key, '1');
-				cw.setAttribute('hidden', '');
-			});
+			return;
 		}
+		
+		// Show warning and set up click handler
+		cw.style.display = 'flex';
+		btn.addEventListener('click', () => {
+			localStorage.setItem(key, '1');
+			cw.style.display = 'none';
+			cw.setAttribute('hidden', '');
+		});
 	})();
 	function getPageFromQuery() {
 		const params = new URLSearchParams(window.location.search);
