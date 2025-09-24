@@ -240,15 +240,25 @@
 			return;
 		}
 
-		// Use proper cross-fade transition even with preloaded images
+		// Verify image is loaded before transitioning (for smooth GitHub Pages experience)
 		const url = String(meta.bgImage);
-		next.style.backgroundImage = `url("${url}")`;
-		
-		// Small delay to ensure smooth transition
-		requestAnimationFrame(() => {
-			next.classList.add('show');
-			current.classList.remove('show');
-		});
+		const img = new Image();
+		img.onload = () => {
+			next.style.backgroundImage = `url("${url}")`;
+			requestAnimationFrame(() => {
+				next.classList.add('show');
+				current.classList.remove('show');
+			});
+		};
+		img.onerror = () => {
+			// Fallback: show immediately if image fails to load
+			next.style.backgroundImage = `url("${url}")`;
+			requestAnimationFrame(() => {
+				next.classList.add('show');
+				current.classList.remove('show');
+			});
+		};
+		img.src = url;
 	}
 
 	function applyHighlights(text, meta = {}) {
