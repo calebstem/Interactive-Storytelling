@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robert Coover - The Babysitter</title>
+    <link rel="stylesheet" href="https://use.typekit.net/fpo6pjs.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="bg-host">
+        <div id="bgA" class="bg-layer show"></div>
+        <div id="bgB" class="bg-layer"></div>
+    </div>
+    <div id="cw" class="cw" role="dialog" aria-modal="true" aria-labelledby="cwTitle">
+        <div class="cw-inner">
+            <h1 id="cwTitle">*CONTENT WARNING*</h1>
+            <p>THE FOLLOWING STORY CONTAINS<br>THEMES OF SEXUAL VIOLENCE</p>
+            <button id="cwContinue" class="cw-btn" aria-label="Continue">CONTINUE</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="navbar">
+            <ul>
+                <li><a id="backLink" href="#" aria-disabled="true">&#8592;</a></li>
+                <li><a id="nextLink" href="#">&#8594;</a></li>
+            </ul>
+        </div>
+        <div id="pageContent" class="Text"></div>
+        <!-- Paste your full text below; each page is separated by a line containing only * -->
+        <script id="pagesData" type="text/plain"></script>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
