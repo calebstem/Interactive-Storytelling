@@ -98,6 +98,35 @@
 		}
 	}
 
+	// Content preloading cache
+	const __preloadedContent = new Map();
+	
+	function preloadPageContent(pageIndex, pages) {
+		if (pageIndex < 0 || pageIndex >= pages.length) return;
+		if (__preloadedContent.has(pageIndex)) return;
+		
+		const { text: pageText, meta } = parsePageMeta(pages[pageIndex]);
+		const highlightedText = applyHighlights(pageText, meta);
+		const pageHtml = highlightedText
+			.split('\n\n')
+			.map(par => `<p>${par}</p>`)
+			.join('');
+		
+		__preloadedContent.set(pageIndex, { html: pageHtml, meta });
+	}
+	
+	function preloadNeighborContent(pages, currentIndex, radius = 2) {
+		const len = pages.length;
+		for (let d = 1; d <= radius; d++) {
+			for (const sign of [-1, 1]) {
+				const i = currentIndex + d * sign;
+				if (i >= 0 && i < len) {
+					preloadPageContent(i, pages);
+				}
+			}
+		}
+	}
+
 	function renderContent(page, pages) {
 		const contentRoot = document.getElementById('pageContent');
 		if (!contentRoot) return;
@@ -111,8 +140,22 @@
 
 		const index = Math.min(Math.max(page, 1), pages.length) - 1;
 
-		// Parse optional page-level metadata like [bg=#112233], [bg-image=url(...)], [img=url(...)] at the top
-		const { text: pageText, meta } = parsePageMeta(pages[index]);
+		// Check if content is preloaded
+		let pageHtml, meta;
+		if (__preloadedContent.has(index)) {
+			const preloaded = __preloadedContent.get(index);
+			pageHtml = preloaded.html;
+			meta = preloaded.meta;
+		} else {
+			// Parse and render normally if not preloaded
+			const parsed = parsePageMeta(pages[index]);
+			meta = parsed.meta;
+			const highlightedText = applyHighlights(parsed.text, meta);
+			pageHtml = highlightedText
+				.split('\n\n')
+				.map(par => `<p>${par}</p>`)
+				.join('');
+		}
 
 		applyBackgroundMeta(meta);
 
@@ -125,14 +168,10 @@
 			contentRoot.appendChild(img);
 		}
 
-		const highlightedText = applyHighlights(pageText, meta);
-		const pageHtml = highlightedText
-			.split('\n\n')
-			.map(par => `<p>${par}</p>`) // simple paragraph split on double newlines
-			.join('');
 		contentRoot.innerHTML = pageHtml;
 
-		// Preload neighbor pages' assets for smoother navigation
+		// Preload neighbor pages' content and assets
+		preloadNeighborContent(pages, index, 2);
 		preloadNeighborAssets(pages, index, 2);
 	}
 
@@ -291,6 +330,12 @@
 		const totalPages = pages.length > 0 ? pages.length : 1;
 		const backLink = document.getElementById('backLink');
 		const nextLink = document.getElementById('nextLink');
+		
+		// Preload initial content (first few pages)
+		const startIndex = Math.max(0, currentPage - 1);
+		for (let i = startIndex; i < Math.min(startIndex + 5, pages.length); i++) {
+			preloadPageContent(i, pages);
+		}
 
 		// On first page, left arrow links to last page; otherwise previous page
 		if (currentPage <= 1) {
