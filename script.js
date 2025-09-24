@@ -6,12 +6,12 @@
 		const btn = document.getElementById('cwContinue');
 		if (!cw || !btn) return;
 		const key = 'cw-dismissed-v1';
-		const dismissed = sessionStorage.getItem(key) === '1';
+		const dismissed = localStorage.getItem(key) === '1';
 		if (dismissed) {
 			cw.setAttribute('hidden', '');
 		} else {
 			btn.addEventListener('click', () => {
-				sessionStorage.setItem(key, '1');
+				localStorage.setItem(key, '1');
 				cw.setAttribute('hidden', '');
 			});
 		}
